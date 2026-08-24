@@ -2,7 +2,7 @@ name: Daily Geopolitics Monitor Dispatch
 
 on:
   schedule:
-    # 2:15 AM UTC = 8:00 AM Nepal Time (NPT, UTC+5:45)
+    # 2:15 AM UTC = 8:00 AM Nepal Time (NPT)
     - cron: '15 2 * * *'
   workflow_dispatch:
 
@@ -30,4 +30,4 @@ jobs:
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
-        run: python app.py
+        run: python main.py
