@@ -2,9 +2,8 @@ name: Daily Geopolitics Monitor Dispatch
 
 on:
   schedule:
-    # Runs at 00:00 UTC every day (5:45 AM NPT / 11:45 PM EST)
-    - cron: '0 0 * * *'
-  # Allows you to manually trigger the workflow from GitHub anytime
+    # 2:15 AM UTC = 8:00 AM Nepal Time (NPT, UTC+5:45)
+    - cron: '15 2 * * *'
   workflow_dispatch:
 
 jobs:
