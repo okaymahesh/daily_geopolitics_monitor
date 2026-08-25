@@ -3,7 +3,7 @@ name: Daily Geopolitics Monitor Dispatch
 on:
   schedule:
     # 2:15 AM UTC = 8:00 AM Nepal Time (NPT)
-    - cron: '15 2 * * *'
+    - cron: '45 1 * * *'
   workflow_dispatch:
 
 jobs:
