@@ -209,7 +209,7 @@ def generate_ai_digest(articles):
     """
 
     client = genai.Client(api_key=GEMINI_API_KEY)
-    preferred_models = ["gemma-4-26b-a4b-it", "gemini-3.6-flash"]
+    preferred_models = ["gemini-3.7-flash", "gemini-3.6-flash", "gemini-2.5-flash"]
 
     for model_name in preferred_models:
         try:
