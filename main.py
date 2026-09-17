@@ -221,22 +221,25 @@ def generate_ai_digest(articles):
         "gemini-1.5-flash"
     ]
 
-    for model_name in preferred_models:
-        for attempt in range(3):  # Retry up to 3 times per model for 503 capacity spikes
+    models_to_try = ["gemini-2.5-flash", "gemini-2.5-pro", "gemini-1.5-flash-latest"]
+    
+    prompt = f"Analyze these articles and produce an executive briefing in HTML:\n{articles}"
+    
+    for model_name in models_to_try:
+        for attempt in range(1, 4):
             try:
-                print(f"Generating briefing with model: {model_name} (Attempt {attempt + 1})...")
+                print(f"Generating briefing with model: {model_name} (Attempt {attempt})...")
                 response = client.models.generate_content(
                     model=model_name,
                     contents=prompt
                 )
-                if response and response.text:
-                    print(f" Digest successfully generated via {model_name}!")
+                if response.text:
                     return response.text
             except Exception as e:
-                print(f" Model '{model_name}' attempt {attempt + 1} failed: {e}")
-                time.sleep(5)  # Wait 5 seconds before retrying
-
-    raise RuntimeError("All models failed after retries. Check API availability.")
+                print(f" Model '{model_name}' attempt {attempt} failed: {e}")
+                time.sleep(2 * attempt)  # Wait 2s, 4s, 6s before retrying 503s
+                
+    raise RuntimeError("All Gemini models failed after retries.")
 
 def strip_html_tags(text):
     """Strips HTML tags to create a clean text-only fallback payload."""
