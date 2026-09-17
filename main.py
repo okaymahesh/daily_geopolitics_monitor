@@ -6,10 +6,15 @@ import re
 import smtplib
 import requests
 import feedparser
+import asyncio
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 from dotenv import load_dotenv
 from google import genai
+
+# Import podcast audio and RSS update functions
+from generate_audio import extract_text_from_html, create_podcast_audio  # <--- ADD THIS
+from update_feed import update_podcast_rss  # <--- ADD THIS
 
 # Try loading pandas for reading Excel files
 try:
@@ -303,7 +308,20 @@ if __name__ == "__main__":
     print("\n2. Generating executive intelligence digest...")
     digest_html = generate_ai_digest(articles)
 
-    # 4. Send emails
+# ---------------------------------------------------------
+    # NEW: 4. Generate Podcast Audio & Update RSS Feed
+    # ---------------------------------------------------------
+    print("\n3. Generating audio podcast episode...")
+    try:
+        spoken_text = extract_text_from_html(digest_html)
+        asyncio.run(create_podcast_audio(spoken_text, "latest_episode.mp3"))
+        update_podcast_rss()
+        print(" Podcast audio episode and RSS feed successfully updated!")
+    except Exception as audio_err:
+        print(f"⚠️ Audio podcast generation failed: {audio_err}")
+    # ---------------------------------------------------------
+
+    # 5. Send emails
     print("\n3. Dispatching briefing emails...")
     send_emails_individually(digest_html, recipients)
     print("--- PIPELINE COMPLETE ---")
