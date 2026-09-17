@@ -233,19 +233,36 @@ def generate_ai_digest(articles):
     
     prompt = f"Analyze these articles and produce an executive briefing in HTML:\n{articles}"
     
+    models_to_try = [
+        "gemini-3.5-flash-lite",
+        "gemini-3.0-flash",
+        "gemini-3.6-flash"
+    ]
+    
+    prompt = f"Analyze these articles and produce an executive briefing in HTML:\n{articles}"
+    
     for model_name in models_to_try:
-        for attempt in range(1, 4):
+        # Increase retries to handle 503/429 spikes gracefully
+        for attempt in range(1, 5):
             try:
                 print(f"Generating briefing with model: {model_name} (Attempt {attempt})...")
                 response = client.models.generate_content(
                     model=model_name,
                     contents=prompt
                 )
-                if response.text:
+                if response and response.text:
                     return response.text
             except Exception as e:
-                print(f" Model '{model_name}' attempt {attempt} failed: {e}")
-                time.sleep(3 * attempt)  # Backoff to give API room during load spikes
+                err_msg = str(e)
+                print(f" Model '{model_name}' attempt {attempt} failed: {err_msg}")
+                
+                # If hit with a 429 rate limit or 503 high-demand spike, pause longer before retrying
+                if "429" in err_msg or "503" in err_msg:
+                    sleep_time = 5 * attempt
+                    print(f" Waiting {sleep_time} seconds before retry...")
+                    time.sleep(sleep_time)
+                else:
+                    time.sleep(2)
                 
     raise RuntimeError("All Gemini models failed after retries.")
 
