@@ -16,7 +16,7 @@ def update_podcast_rss():
     <itunes:summary>Daily automated executive briefing on global security, strategic competition, and regional dynamics.</itunes:summary>
     <itunes:owner>
       <itunes:name>Daily Dispatch Desk</itunes:name>
-      <itunes:email>mahesh.kushwaha2@mail.dcu.ie</itunes:email>
+      <itunes:email>okaymahesh@gmail.com</itunes:email>
     </itunes:owner>
     <itunes:category text="News">
       <itunes:category text="Daily News"/>
