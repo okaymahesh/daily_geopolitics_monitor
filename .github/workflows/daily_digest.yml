@@ -1,33 +1,45 @@
-name: Daily Geopolitics Monitor Dispatch
+name: Daily Geopolitics Digest
 
 on:
   schedule:
-    # 2:15 AM UTC = 8:00 AM Nepal Time (NPT)
-    - cron: '45 1 * * *'
+    - cron: '0 6 * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
-  run-pipeline:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Set up Python 3.11
+      - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests feedparser google-genai python-dotenv pandas openpyxl
+          python -m pip install -r requirements.txt
+          python -m pip list  # Logs installed packages to debug runner environment
 
-      - name: Execute Geopolitics Pipeline
+      - name: Run Geopolitics Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GMAIL_USER: ${{ secrets.GMAIL_USER }}
           GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
           RECIPIENT_EMAILS: ${{ secrets.RECIPIENT_EMAILS }}
-        run: python main.py
+        run: |
+          python main.py
+
+      - name: Commit and Push Podcast Files
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add latest_episode.mp3 feed.xml
+          git commit -m "Auto-publish daily audio episode and update RSS feed" || exit 0
+          git push origin main
