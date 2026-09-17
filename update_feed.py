@@ -11,8 +11,13 @@ def update_podcast_rss():
     <title>The Daily Geopolitics Monitor</title>
     <link>{BASE_URL}</link>
     <language>en-us</language>
+    <description>Daily automated executive briefing on global security, strategic competition, and regional dynamics.</description>
     <itunes:author>Daily Dispatch Desk</itunes:author>
     <itunes:summary>Daily automated executive briefing on global security, strategic competition, and regional dynamics.</itunes:summary>
+    <itunes:owner>
+      <itunes:name>Daily Dispatch Desk</itunes:name>
+      <itunes:email>mahesh.kushwaha2@mail.dcu.ie</itunes:email>
+    </itunes:owner>
     <itunes:category text="News">
       <itunes:category text="Daily News"/>
     </itunes:category>
@@ -22,6 +27,7 @@ def update_podcast_rss():
     <item>
       <title>Daily Geopolitics Briefing - {datetime.now().strftime('%b %d, %Y')}</title>
       <itunes:author>Daily Dispatch Desk</itunes:author>
+      <description>Today's executive geopolitical intelligence summary.</description>
       <itunes:summary>Today's executive geopolitical intelligence summary.</itunes:summary>
       <enclosure url="{BASE_URL}/latest_episode.mp3" length="1000000" type="audio/mpeg"/>
       <guid>{BASE_URL}/latest_episode.mp3?v={guid_date}</guid>
