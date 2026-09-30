@@ -18,13 +18,13 @@
     <itunes:image href="https://okaymahesh.github.io/daily_geopolitics_monitor/cover.jpg"/>
     
     <item>
-      <title>Daily Geopolitics Briefing - Sep 27, 2026</title>
+      <title>Daily Geopolitics Briefing - Sep 30, 2026</title>
       <itunes:author>Daily Dispatch Desk</itunes:author>
       <description>Today's executive geopolitical intelligence summary.</description>
       <itunes:summary>Today's executive geopolitical intelligence summary.</itunes:summary>
       <enclosure url="https://okaymahesh.github.io/daily_geopolitics_monitor/latest_episode.mp3" length="1000000" type="audio/mpeg"/>
-      <guid>https://okaymahesh.github.io/daily_geopolitics_monitor/latest_episode.mp3?v=20260927</guid>
-      <pubDate>Sun, 27 Sep 2026 17:04:59 GMT</pubDate>
+      <guid>https://okaymahesh.github.io/daily_geopolitics_monitor/latest_episode.mp3?v=20260930</guid>
+      <pubDate>Wed, 30 Sep 2026 11:38:49 GMT</pubDate>
     </item>
   </channel>
 </rss>
